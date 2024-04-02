@@ -2,6 +2,7 @@
 
 import time
 from rpi_ws281x import *
+import gpiozero import MotionSensor
 import board
 import argparse
 import neopixel
@@ -34,7 +35,14 @@ def oneledanimation(n):
             pixels1.fill((86,86,86))
             time.sleep(3)
             pixels1.fill((0, 0, 0))
-            quit()
-                    
-#executions
-oneledanimation(n)
+
+pir = MotionSensor(12) #out plugged into GPIO12
+
+while True:
+    pir.wait_for_motion()
+    print(Movement detected!)
+
+    oneledanimation(n)
+
+    pir.wait_for_no_motion()
+    print("Movement is gone")
